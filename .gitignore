@@ -1,8 +1,13 @@
 **pycache**/
 *.pyc
 .ipynb_checkpoints/
+
 data/
+working_wiht_git/
+
 *.zip
+*.png
+*.npz
 venv/
 .env/
 *.log
