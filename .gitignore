@@ -1,0 +1,12 @@
+**pycache**/
+*.pyc
+.ipynb_checkpoints/
+data/
+*.zip
+venv/
+.env/
+*.log
+
+
+.vscode/
+.cursor/
