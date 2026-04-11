@@ -1,13 +1,3 @@
-Each works on their own notebooks
-Before starting to work always git pull
-
-
-
-
-
-
-
-
 🔒 License
 
 This repository is created for a university course project.
