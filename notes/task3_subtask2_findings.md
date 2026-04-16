@@ -176,6 +176,71 @@ The 104 "non-owner noticed, owner did not" cases represent only 1.15% of all 902
 
 ---
 
+## Subtask 2c — Label Characteristics
+
+All characteristics computed on `labels_v2`. Total segments across all recordings: 168,239.
+
+### Class frequency and event duration
+
+| Class | Positive segments | Recordings present | Single-label % |
+|---|---|---|---|
+| footsteps | 28,784 | 1798 | 66.8% |
+| running_water | 23,746 | 989 | 51.5% |
+| keyboard_typing | 17,980 | 721 | 71.8% |
+| cutlery_dishes | 14,458 | 802 | 42.6% |
+| microwave | 13,718 | 391 | 51.7% |
+| phone_ringing | 13,206 | 779 | 32.1% |
+| vacuum_cleaner | 11,679 | 322 | 62.1% |
+| door_open_close | 10,979 | 1174 | 59.3% |
+| keychain | 10,892 | 677 | 46.7% |
+| coffee_machine | 7,164 | 205 | 63.3% |
+| toilet_flushing | 6,713 | 401 | 68.6% |
+| wardrobe_drawer_open_close | 6,331 | 604 | 68.8% |
+| window_open_close | 3,859 | 482 | 74.0% |
+| light_switch | 3,058 | 738 | 64.1% |
+| bell_ringing | 3,022 | 277 | 49.5% |
+
+**Key observations:**
+- Significant class imbalance: `footsteps` has ~9.5× more positive segments than `bell_ringing`. This will challenge classifiers trained on this data.
+- `light_switch` appears in 738 recordings but contributes only 3,058 segments — fewest segments per recording of any class, consistent with its brief transient nature.
+- `footsteps` and `door_open_close` appear in the most recordings (1798 and 1174) — they are the most ubiquitous classes across the dataset.
+- Single-label % (fraction of positive segments where only that class is active) is highest for `window_open_close` (74%), `keyboard_typing` (71.8%), `wardrobe_drawer_open_close` (68.8%), and `toilet_flushing` (68.6%) — these are the best candidates for feature space visualization in 3d. `phone_ringing` (32.1%) and `cutlery_dishes` (42.6%) are the hardest to isolate.
+
+### Co-occurrence patterns
+
+**Figure 7** — co-occurrence heatmap: normalized by row class (diagonal = 1.0), off-diagonal = fraction of row-class segments that also contain the column class.
+
+Key observations from the heatmap:
+- Most classes are largely isolated — off-diagonal entries are pale for the majority of pairs, confirming the dataset mostly captures one dominant sound at a time.
+- Notable co-occurrences (visually elevated off-diagonal):
+  - `cutlery_dishes` ↔ `running_water` — kitchen sink context
+  - `keychain` ↔ `door_open_close` — keys used when opening doors
+  - `phone_ringing` ↔ `keyboard_typing` — office/desk context
+  - `running_water` ↔ `coffee_machine` — kitchen appliance context
+  - `toilet_flushing` ↔ `running_water` — bathroom context
+- These co-occurrences are semantically meaningful and reflect real domestic acoustic environments rather than annotation errors.
+
+### Class presence by recording environment
+
+The dataset uses free-text environment labels resulting in ~55 unique values, many near-duplicates. Collapsing to the 8 most populated environments:
+
+| Environment | Most present classes |
+|---|---|
+| kitchen | cutlery_dishes (674), running_water (528), microwave (368), coffee_machine (185) |
+| hallway | footsteps (538), door_open_close (518), keychain (357) |
+| bedroom | footsteps (445), wardrobe_drawer_open_close (211), window_open_close (193), keyboard_typing (203) |
+| living_room | footsteps (349), vacuum_cleaner (136), keyboard_typing (123) |
+| bathroom | running_water (309), toilet_flushing (234) |
+| office | keyboard_typing (347), phone_ringing (202) |
+| toilet | toilet_flushing (172), running_water (135), door_open_close (110) |
+
+**Key observations:**
+- Environment-class associations are strong and semantically consistent: `microwave` and `cutlery_dishes` concentrate in kitchen, `toilet_flushing` in bathroom/toilet, `keyboard_typing` in office/bedroom. This is expected and validates data collection.
+- `footsteps` and `door_open_close` appear in virtually every environment — they are environment-agnostic.
+- The free-text environment labels introduce noise (55 unique values, many synonymous). For any location-based analysis, these should be normalized or collapsed to major room categories.
+
+---
+
 ## Key limitations to mention in report
 
 1. **Single annotator recordings (A=1, 625 recordings):** no consensus possible, label entirely depends on one person
